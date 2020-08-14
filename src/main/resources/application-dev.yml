@@ -1,0 +1,25 @@
+spring:
+  # 数据源配置
+  datasource:
+    ds1: #数据源1:iemp
+      driver-class-name: com.mysql.jdbc.Driver # mysql的驱动你可以配置别的关系型数据库
+      #数据源地址
+      url: jdbc:mysql://172.16.200.150:3306/iemp?useSSL=false&amp;useUnicode=true&amp;characterEncoding=utf-8&amp;allowMultiQueries=true
+      username: root # 用户名
+      password: CeShi#0301! # 密码
+      maxActive: 5
+      ##初始化连接数量
+      initialSize: 1
+      ##配置获取连接等待超时的时间
+      maxWait: 60000
+      ##最小空闲连接数
+      minIdle: 1
+      ##配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
+      timeBetweenEvictionRunsMillis: 60000
+      ##配置一个连接在池中最小生存的时间，单位是毫秒
+      minEvictableIdleTimeMillis: 300000
+    ds2: # 数据源2
+      driver-class-name: com.mysql.jdbc.Driver # mysql的驱动你可以配置别的关系型数据库
+      url: jdbc:mysql://172.16.200.87:3306/spp?useSSL=false&amp;useUnicode=true&amp;characterEncoding=utf-8&amp;allowMultiQueries=true #数据源地址
+      username: root # 用户名
+      password: CeShi#0301! # 密码

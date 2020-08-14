@@ -1,0 +1,6 @@
+#开发环境选择 dev test prod
+server:
+  port: 8080
+spring:
+  profiles:
+    active: dev
