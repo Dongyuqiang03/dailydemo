@@ -26,18 +26,15 @@ public class CountDownLatchTest {
 
         for (int i = 0; i < size; i++) {
             final int NO = i + 1;
-            Runnable run = new Runnable() {
-                @Override
-                public void run() {
-                    try {
-                        begin.await();
-                        Thread.sleep((long)(Math.random() * 10000));
-                        System.out.println("No." + NO + " 业务处理");
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    } finally {
-                        end.countDown();
-                    }
+            Runnable run = () -> {
+                try {
+                    begin.await();
+                    Thread.sleep((long)(Math.random() * 10000));
+                    System.out.println("No." + NO + " 业务处理");
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                } finally {
+                    end.countDown();
                 }
             };
             Future<?> submit = exec.submit(run);
@@ -47,7 +44,6 @@ public class CountDownLatchTest {
         System.out.println("Game Start ...");
         begin.countDown();
         end.await();
-//        end.await(30, TimeUnit.SECONDS);
         System.out.println("Game Over.");
 
         exec.shutdown();

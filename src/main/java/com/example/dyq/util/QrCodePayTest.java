@@ -25,13 +25,13 @@ public class QrCodePayTest {
         map.put("simno","18B6F7024C68");
         map.put("mkey","qrpay");
         //sn号
-        map.put("sn","86837040000005");
+        map.put("sn","86850030000002");
         //商户号
-        map.put("mer","631000015537670");
+        map.put("mer","631000015537665");
         //交易金额 单位分
-        map.put("f4","1");
+        map.put("f4","10000");
         //终端流水
-        map.put("f11","000001");
+        map.put("f11","000002");
         //基站信息
         map.put("loc","18BE,5028,460,00");
         map.put("mac","12321321321");

@@ -20,6 +20,10 @@ public class TestMain {
         System.out.println("====:"+(end_date.plusDays(1).isAfter(noe.getMillis())));
         System.out.println("时间差："+(p2.getDays()>10));
         System.out.println("操作流水："+getOrderIdByUUId());
+        int i = ("v1.0.2").compareToIgnoreCase("v1.0.1");
+        System.out.println(i);
+
+
     }
 
     public static String getOrderIdByUUId() {
