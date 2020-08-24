@@ -1,9 +1,13 @@
 package com.example.dyq.util;
 
+import com.alibaba.fastjson.JSONObject;
+import com.example.dyq.entity.RequestIndustrialDatagram;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -62,4 +66,21 @@ public class ThreadPoolBatchUtil {
         }
     }
 
+
+    public static void main(String[] args) throws Exception {
+
+        RequestIndustrialDatagram datagram = new RequestIndustrialDatagram();
+        datagram.setAgentNo("0000000001");
+        Map<String,Object> map=new HashMap<>();
+        map.put("factoryName","华智融");
+        datagram.setData(map);
+        String randomString = UUIDUtil.getRandomString(20);
+        datagram.setReqTrace(randomString);
+        datagram.setVersion("1.0");
+        datagram.encryptDESString("e10adc3949ba59abbe56e057f20f883e");
+        String requestParam = JSONObject.toJSONString(datagram);
+        System.out.println(requestParam);
+        String s = Httpclient.sendJsonRequestMethod(requestParam, "http://172.17.210.238:10086/mrs/inner/merchant/queryTermMode", "POST", 10);
+        System.out.println(s);
+    }
 }

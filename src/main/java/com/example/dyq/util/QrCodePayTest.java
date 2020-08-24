@@ -36,7 +36,7 @@ public class QrCodePayTest {
         map.put("loc","18BE,5028,460,00");
         map.put("mac","12321321321");
         //59域
-        map.put("f59","sfsfsfsf");
+//        map.put("f59","sfsfsfsf");
         Map<String, String> req = new TreeMap<String, String>(
                 new Comparator<String>() {
                     @Override

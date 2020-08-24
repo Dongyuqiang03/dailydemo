@@ -282,4 +282,48 @@ public class Httpclient {
 				httpclient.close();
 		}
 	}
+
+
+	public static String sendJsonRequestMethod(String json, String url, String method,int timeout) throws Exception{
+
+		// 创建默认的httpClient实例.
+		CloseableHttpClient httpclient = HttpClients.createDefault();
+		RequestConfig requestConfig = RequestConfig.custom()
+				.setSocketTimeout(timeout*1000)
+				.setConnectTimeout(timeout*1000)
+				.setConnectionRequestTimeout(timeout*1000)
+				.build();
+		HttpPost httpPost = new HttpPost(url);
+		try {
+			StringEntity entity = new StringEntity(json.toString(),"utf-8");//解决中文乱码问题
+			entity.setContentEncoding("UTF-8");
+			entity.setContentType("application/json");
+			httpPost.setEntity(entity);
+
+			if(logger.isDebugEnabled())
+				logger.debug("executing request :{}"+httpPost.getRequestLine());
+
+			HttpUriRequest reqMethod = RequestBuilder.post().setUri(url).setEntity(entity).setConfig(requestConfig).build();
+			CloseableHttpResponse response = null;
+			if(httpclient != null)
+				response = httpclient.execute(reqMethod);
+
+			if(response != null && response.getStatusLine().getStatusCode() == 200)
+				return EntityUtils.toString(response.getEntity(), "UTF-8");
+			else{
+				if(response != null)
+					logger.warn(" status code {} "+response.getStatusLine().getStatusCode());
+				logger.warn(" server error, return null");
+				return null;
+			}
+		} catch (Exception e) {
+			logger.error(e.getMessage());
+			throw e;
+		} finally{
+			if(httpclient != null)
+				httpclient.close();
+		}
+	}
+
+
 }
