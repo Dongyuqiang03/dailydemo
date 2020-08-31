@@ -72,7 +72,7 @@ public class ThreadPoolBatchUtil {
         RequestIndustrialDatagram datagram = new RequestIndustrialDatagram();
         datagram.setAgentNo("0000000001");
         Map<String,Object> map=new HashMap<>();
-        map.put("factoryName","华智融");
+        map.put("factoryName","新大陆");
         datagram.setData(map);
         String randomString = UUIDUtil.getRandomString(20);
         datagram.setReqTrace(randomString);

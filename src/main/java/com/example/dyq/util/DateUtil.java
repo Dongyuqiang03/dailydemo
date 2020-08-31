@@ -3,8 +3,10 @@ package com.example.dyq.util;
 
 import org.apache.commons.lang3.StringUtils;
 
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -194,9 +196,19 @@ public class DateUtil {
         return res;
     }
 	
-	 public static void main(String[] args) {
+	 public static void main(String[] args) throws ParseException {
 
-		 System.out.println(DateUtil8.getNowDateWithFormat(DateUtil8.MMddHHmmss));
-		 System.out.println(DateUtil.getSimpleDateFormat(DateUtil.DATE_FORMAT_8).format(new Date()));
-	}
+//		 System.out.println(DateUtil8.getNowDateWithFormat(DateUtil8.MMddHHmmss));
+//		 System.out.println(DateUtil.getSimpleDateFormat(DateUtil.DATE_FORMAT_8).format(new Date()));
+		 DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+		 Long time = new Date().getTime();
+		 Calendar calendar = Calendar.getInstance();
+		 calendar.setTimeInMillis(time);
+		 calendar.set(Calendar.MONTH, calendar.get(Calendar.MONTH) - 1);
+		 calendar.set(Calendar.DAY_OF_MONTH,1);
+		 long nextmonth  = df.parse(df.format(calendar.getTime())).getTime();
+		 System.out.println(df.format(calendar.getTime()));
+		 System.out.println(nextmonth);
+
+	 }
 }

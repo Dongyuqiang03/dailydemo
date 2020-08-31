@@ -239,7 +239,7 @@ public class Httpclient {
 			}
 			HttpUriRequest reqMethod = null;
 			long random = System.currentTimeMillis();
-			String message = EncryptUtil.sha2Encrypt(random+"1qaz2wsx1qaz2wsx");
+			String message = EncryptUtil.sha2Encrypt(random+"16406F0F5XGC65046A6F7FEAJ65C2CBE");
 			if(message == null){
 				logger.error("vip头参数加密异常");
 				return null;
@@ -249,7 +249,7 @@ public class Httpclient {
 				reqMethod = RequestBuilder.post().setUri(url).setHeader("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8")
 						.setHeader("random",String.valueOf(random))
 						.setHeader("message",message)
-						.setHeader("appid","TM000001")
+						.setHeader("appid","TM000003")
 //	        			.setCharset(java.nio.charset.Charset.forName("UTF-8"))
 //	                    .addParameters(params.toArray(new BasicNameValuePair[params.size()]))
 						.setEntity(urlEncodedFormEntity)
