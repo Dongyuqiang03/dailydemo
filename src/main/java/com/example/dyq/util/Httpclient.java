@@ -21,12 +21,16 @@ import org.apache.http.util.EntityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.zip.GZIPInputStream;
 
 public class Httpclient {
 	
@@ -250,6 +254,7 @@ public class Httpclient {
 						.setHeader("random",String.valueOf(random))
 						.setHeader("message",message)
 						.setHeader("appid","TM000003")
+						.setHeader("Accept-Encoding", "gzip, deflate, br")
 //	        			.setCharset(java.nio.charset.Charset.forName("UTF-8"))
 //	                    .addParameters(params.toArray(new BasicNameValuePair[params.size()]))
 						.setEntity(urlEncodedFormEntity)
@@ -266,10 +271,13 @@ public class Httpclient {
 			CloseableHttpResponse response = null;
 			if(httpclient != null)
 				response = httpclient.execute(reqMethod);
-
-			if(response != null && response.getStatusLine().getStatusCode() == 200)
-				return EntityUtils.toString(response.getEntity(), "UTF-8");
-			else{
+			InputStream is;
+			if(response != null && response.getStatusLine().getStatusCode() == 200) {
+//				return EntityUtils.toString(response.getEntity(), "UTF-8");
+				is=response.getEntity().getContent();
+				GZIPInputStream gzipIn = new GZIPInputStream(is);
+				return streamToString(gzipIn);
+			}else{
 				if(response != null)
 					logger.warn("http response status error, status{}, return null"+response.getStatusLine().getStatusCode());
 				return null;
@@ -326,4 +334,14 @@ public class Httpclient {
 	}
 
 
+	public static String streamToString(InputStream stream) throws Exception{
+		BufferedReader responseReader;
+		responseReader = new BufferedReader(new InputStreamReader(stream));
+		StringBuffer st = new StringBuffer();
+		String readLine = "";
+		while((readLine = responseReader.readLine())!=null){
+			st.append(readLine);
+		}
+		return st.toString().trim();
+	}
 }

@@ -1,19 +1,14 @@
 package com.example.dyq.util;
 
 import com.google.common.collect.Lists;
-import org.joda.time.DateTime;
-import org.joda.time.PeriodType;
-import org.joda.time.format.DateTimeFormat;
 import org.springframework.util.Assert;
 
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
 import java.time.temporal.ChronoUnit;
 import java.time.temporal.TemporalAdjusters;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -682,65 +677,66 @@ public class DateUtil8 {
      */
     public static void TwoDateBetween(){}
     public static void main(String[] args) throws Exception {
-        System.out.println("===================");
-        //获取距离当前日期90天前的日期的时间戳
-        String afterOrPreNowTimePlus = getAfterOrPreNowTimePlus(yyyyMMddHHmmss_EN, DAY, -90L);
-        System.out.println("当前日期：" + getNowDateWithFormat(yyyyMMddHHmmss_EN));
-        System.out.println("距离当前日期90日前的日期：" + afterOrPreNowTimePlus);
-        System.out.println("90日之前时间戳" + convertTimeToLong(afterOrPreNowTimePlus, null));
-        System.out.println("===================");
-
-        int i = Integer.valueOf("90");
-        Long time = System.currentTimeMillis();
-        DateFormat dft = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTimeInMillis(time);
-        calendar.set(Calendar.DAY_OF_YEAR, calendar.get(Calendar.DAY_OF_YEAR) - i);
-        time = dft.parse(dft.format(calendar.getTime())).getTime();
-        System.out.println("90日之前时间戳：" + time);
-
-        System.out.println("========================");
-        //获取当前时间点
-        System.out.println("当前时间" + getTime("HHmm"));
-        System.out.println("==================");
-        //获取当前日期的时间戳
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        Date date_table = new Date();
-        String table_time = sdf.format(date_table.getTime());
-        Long dateStart = sdf.parse(table_time).getTime();
-        System.out.println("老版本当前日期时间戳：" + dateStart);
-        System.out.println("新版本时间戳1："+ localDateToTimestamp(LocalDate.now()));
-        System.out.println("==================");
-        //当天0点的时间戳
-        Calendar cal = Calendar.getInstance();
-        cal.set(Calendar.HOUR_OF_DAY, 0);
-        cal.set(Calendar.SECOND, 0);
-        cal.set(Calendar.MINUTE, 0);
-        cal.set(Calendar.MILLISECOND, 0);
-        long startTime=cal.getTimeInMillis();// 当天0时
-        System.out.println("老版0时时间戳："+startTime);
-        LocalDateTime min = LocalDateTime.of(LocalDate.now(), LocalTime.MIN);
-        System.out.println("新版0时时间戳："+localDateTimeToTimestamp(min));
-        //当天24点的时间戳
-        cal.set(Calendar.HOUR_OF_DAY, 24);
-        cal.set(Calendar.SECOND, 0);
-        cal.set(Calendar.MINUTE, 0);
-        cal.set(Calendar.MILLISECOND, 0);
-        long endTime=cal.getTimeInMillis();// 当天24时
-        System.out.println("老版24时时间戳："+endTime);
-        LocalDateTime of = LocalDateTime.of(LocalDate.now(), LocalTime.MAX);
-        System.out.println("新版24时时间戳："+localDateTimeToTimestamp(of));
-        System.out.println("==========");
-        DateTime end_date = DateTime.parse("2018-10-01", DateTimeFormat.forPattern("yyyy-MM-dd"));
-        DateTime noe = new DateTime(DateTime.now().toLocalDate().toString());
-        org.joda.time.Period p2 = new org.joda.time.Period(noe, end_date, PeriodType.days());
-        System.out.println("时间差："+(p2.getDays()>10));
-        System.out.println("==================");
-        System.out.println("当前日期：="+getNowDateWithFormat(yyyyMMddHHmmss_EN));
-
-        System.out.println("===============================");
-        String s = localDateTimeToString(LocalDateTime.now(), yyyyMMddHHmm_EN);
-        System.out.println("java8之后："+s);
+//        System.out.println("===================");
+//        //获取距离当前日期90天前的日期的时间戳
+//        String afterOrPreNowTimePlus = getAfterOrPreNowTimePlus(yyyyMMddHHmmss_EN, DAY, -90L);
+//        System.out.println("当前日期：" + getNowDateWithFormat(yyyyMMddHHmmss_EN));
+//        System.out.println("距离当前日期90日前的日期：" + afterOrPreNowTimePlus);
+//        System.out.println("90日之前时间戳" + convertTimeToLong(afterOrPreNowTimePlus, null));
+//        System.out.println("===================");
+//
+//        int i = Integer.valueOf("90");
+//        Long time = System.currentTimeMillis();
+//        DateFormat dft = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+//        Calendar calendar = Calendar.getInstance();
+//        calendar.setTimeInMillis(time);
+//        calendar.set(Calendar.DAY_OF_YEAR, calendar.get(Calendar.DAY_OF_YEAR) - i);
+//        time = dft.parse(dft.format(calendar.getTime())).getTime();
+//        System.out.println("90日之前时间戳：" + time);
+//
+//        System.out.println("========================");
+//        //获取当前时间点
+//        System.out.println("当前时间" + getTime("HHmm"));
+//        System.out.println("==================");
+//        //获取当前日期的时间戳
+//        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+//        Date date_table = new Date();
+//        String table_time = sdf.format(date_table.getTime());
+//        Long dateStart = sdf.parse(table_time).getTime();
+//        System.out.println("老版本当前日期时间戳：" + dateStart);
+//        System.out.println("新版本时间戳1："+ localDateToTimestamp(LocalDate.now()));
+//        System.out.println("==================");
+//        //当天0点的时间戳
+//        Calendar cal = Calendar.getInstance();
+//        cal.set(Calendar.HOUR_OF_DAY, 0);
+//        cal.set(Calendar.SECOND, 0);
+//        cal.set(Calendar.MINUTE, 0);
+//        cal.set(Calendar.MILLISECOND, 0);
+//        long startTime=cal.getTimeInMillis();// 当天0时
+//        System.out.println("老版0时时间戳："+startTime);
+//        LocalDateTime min = LocalDateTime.of(LocalDate.now(), LocalTime.MIN);
+//        System.out.println("新版0时时间戳："+localDateTimeToTimestamp(min));
+//        //当天24点的时间戳
+//        cal.set(Calendar.HOUR_OF_DAY, 24);
+//        cal.set(Calendar.SECOND, 0);
+//        cal.set(Calendar.MINUTE, 0);
+//        cal.set(Calendar.MILLISECOND, 0);
+//        long endTime=cal.getTimeInMillis();// 当天24时
+//        System.out.println("老版24时时间戳："+endTime);
+//        LocalDateTime of = LocalDateTime.of(LocalDate.now(), LocalTime.MAX);
+//        System.out.println("新版24时时间戳："+localDateTimeToTimestamp(of));
+//        System.out.println("==========");
+//        DateTime end_date = DateTime.parse("2018-10-01", DateTimeFormat.forPattern("yyyy-MM-dd"));
+//        DateTime noe = new DateTime(DateTime.now().toLocalDate().toString());
+//        org.joda.time.Period p2 = new org.joda.time.Period(noe, end_date, PeriodType.days());
+//        System.out.println("时间差："+(p2.getDays()>10));
+//        System.out.println("==================");
+//        System.out.println("当前日期：="+getNowDateWithFormat(yyyyMMddHHmmss_EN));
+//
+//        System.out.println("===============================");
+//        String s = localDateTimeToString(LocalDateTime.now(), yyyyMMddHHmm_EN);
+//        System.out.println("java8之后："+s);
+        //1598889600000
 
 
     }

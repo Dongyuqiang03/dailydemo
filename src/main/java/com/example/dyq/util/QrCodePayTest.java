@@ -11,6 +11,28 @@ public class QrCodePayTest {
 
 
     public static void main(String[] args) throws Exception {
+//        getQrCode();
+        sign();
+    }
+
+    public static void sign() throws Exception {
+        long timeStamp = System.currentTimeMillis();
+        String url = "http://localhost:8088/gzipT/test/getSignInfo.do?p="+timeStamp+"000";
+        //测试：http://spos.qianziworth.cn:7781/semp/getH5Url.do  本地：http://localhost:8081/getH5Url.do uat：http://uspos.worthtech.net:8871/semp/getH5Url.do
+        Map<String,String> map=new HashMap<>();
+        String response = Httpclient.sendRequestMethodWithHeader(map, url, "POST", 100);
+        System.out.println(response.length());
+
+
+    }
+
+
+
+    /**
+     * 获取二维码支付链接
+     * @throws Exception
+     */
+    private static void getQrCode() throws Exception {
         //模拟终端发起交易
         //计算mac
         Map<String,String> map=new HashMap<>();
@@ -48,20 +70,6 @@ public class QrCodePayTest {
                 req.put(key, map.get(key));
         }
 
-//        StringBuilder sb = new StringBuilder();
-//        Set<String> keySet = map.keySet();
-//        Iterator<String> iter = keySet.iterator();
-//        while (iter.hasNext()) {
-//            String pkey = iter.next();
-//            if(!pkey.equals("mac")){
-//                sb.append(pkey);
-//                sb.append("=");
-//                sb.append(map.get(pkey));
-//                if(iter.hasNext()){
-//                    sb.append("&");
-//                }
-//            }
-//        }
 
 //        String date =DESDOUtil.encECB3Des("appid=TM000001&version=v1.0.1&simno=18B6F7024C68&imei=864532041533149&mkey=qrPay&f4=1&f11=000001&sn=86837040000005&loc=18BE,5028,460&mer=631000015537670&f59=1232321&pvip=1&mac="+mac, key);
 //     http://spos.qianziworth.cn:7781/semp/getH5Url.do  http://localhost:8081/getH5Url.do
@@ -73,4 +81,6 @@ public class QrCodePayTest {
 
 //        System.out.println(data);
     }
+
+
 }
