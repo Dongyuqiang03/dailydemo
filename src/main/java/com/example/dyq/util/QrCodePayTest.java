@@ -11,8 +11,7 @@ public class QrCodePayTest {
 
 
     public static void main(String[] args) throws Exception {
-//        getQrCode();
-        sign();
+        getQrCode();
     }
 
     public static void sign() throws Exception {

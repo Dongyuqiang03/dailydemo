@@ -737,7 +737,8 @@ public class DateUtil8 {
 //        String s = localDateTimeToString(LocalDateTime.now(), yyyyMMddHHmm_EN);
 //        System.out.println("java8之后："+s);
         //1598889600000
-
+        String afterOrPreNowTimePlus = getAfterOrPreNowTimePlus(yyyyMMddHHmmss_EN, DAY, -7L);
+        System.out.println(afterOrPreNowTimePlus);
 
     }
 

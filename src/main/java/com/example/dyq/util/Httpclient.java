@@ -30,7 +30,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.zip.GZIPInputStream;
 
 public class Httpclient {
 	
@@ -255,6 +254,7 @@ public class Httpclient {
 						.setHeader("message",message)
 						.setHeader("appid","TM000003")
 						.setHeader("Accept-Encoding", "gzip, deflate, br")
+						.setHeader("User-Agent","Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.135 Safari/537.36")
 //	        			.setCharset(java.nio.charset.Charset.forName("UTF-8"))
 //	                    .addParameters(params.toArray(new BasicNameValuePair[params.size()]))
 						.setEntity(urlEncodedFormEntity)
@@ -273,10 +273,10 @@ public class Httpclient {
 				response = httpclient.execute(reqMethod);
 			InputStream is;
 			if(response != null && response.getStatusLine().getStatusCode() == 200) {
-//				return EntityUtils.toString(response.getEntity(), "UTF-8");
-				is=response.getEntity().getContent();
-				GZIPInputStream gzipIn = new GZIPInputStream(is);
-				return streamToString(gzipIn);
+				return EntityUtils.toString(response.getEntity(), "UTF-8");
+//				is=response.getEntity().getContent();
+//				GZIPInputStream gzipIn = new GZIPInputStream(is);
+//				return streamToString(gzipIn);
 			}else{
 				if(response != null)
 					logger.warn("http response status error, status{}, return null"+response.getStatusLine().getStatusCode());

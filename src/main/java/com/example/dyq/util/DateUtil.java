@@ -3,10 +3,8 @@ package com.example.dyq.util;
 
 import org.apache.commons.lang3.StringUtils;
 
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -200,18 +198,38 @@ public class DateUtil {
 
 //		 System.out.println(DateUtil8.getNowDateWithFormat(DateUtil8.MMddHHmmss));
 //		 System.out.println(DateUtil.getSimpleDateFormat(DateUtil.DATE_FORMAT_8).format(new Date()));
-		 Long time= new Date().getTime();
-		 Calendar calendar = Calendar.getInstance();
-		 calendar.setTimeInMillis(time);
-		 //输出年
-		 DateFormat df = new SimpleDateFormat("yyyy-MM");
-		 long thismonth =df.parse(df.format(calendar.getTime())).getTime();
-		 calendar.set(Calendar.MONTH, calendar.get(Calendar.MONTH)+1);
-		 calendar.set(Calendar.DAY_OF_MONTH, 1);
-		 long nextmonth = df.parse(df.format(calendar.getTime())).getTime();
+//		 Long time= new Date().getTime();
+//		 Calendar calendar = Calendar.getInstance();
+//		 calendar.setTimeInMillis(time);
+//		 //输出年
+//		 DateFormat df = new SimpleDateFormat("yyyy-MM");
+//		 long thismonth =df.parse(df.format(calendar.getTime())).getTime();
+//		 calendar.set(Calendar.MONTH, calendar.get(Calendar.MONTH)+1);
+//		 calendar.set(Calendar.DAY_OF_MONTH, 1);
+//		 long nextmonth = df.parse(df.format(calendar.getTime())).getTime();
+//
+//		 System.out.println(thismonth);
+//		 System.out.println(nextmonth);
+//		 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+//		 Date date_table = new Date();
+//		 String table_time = sdf.format(date_table.getTime() - 1000 * 60);
+//		 String trans_running_Start_Sub = table_time.substring(0, 7);
+//		 System.out.println(trans_running_Start_Sub);
+//		 DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+//		 Long time = new Date().getTime();
+//		 Calendar calendar = Calendar.getInstance();
+//		 calendar.setTimeInMillis(time);
+//		 calendar.set(Calendar.MONTH, calendar.get(Calendar.MONTH) - 1);
+//		 calendar.set(Calendar.DAY_OF_MONTH,1);
+//		 long nextmonth  = df.parse(df.format(calendar.getTime())).getTime();
+//		 System.out.println(nextmonth);
+		 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		 Date date_table = new Date();
+		 String table_time = sdf.format(date_table.getTime() - 1000 * 60);
+		 String trans_running_Start_Sub = table_time.substring(0, 7);
+		 trans_running_Start_Sub = trans_running_Start_Sub.replace("-", "");
+		 System.out.println(trans_running_Start_Sub);
 
-		 System.out.println(thismonth);
-		 System.out.println(nextmonth);
 
 	 }
 }

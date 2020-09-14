@@ -1,7 +1,6 @@
 package com.example.dyq.util;
 
-import org.apache.commons.lang3.StringUtils;
-
+import java.math.BigDecimal;
 import java.util.UUID;
 
 /**
@@ -19,11 +18,17 @@ public class TestMain {
 //        System.out.println("操作流水："+getOrderIdByUUId());
 //        int i = ("v1.0.2").compareToIgnoreCase("v1.0.1");
 //        System.out.println(i);
+//        String s1="9A246311E3133DE117339A13DB6BC9DF|CD03F477FB352D80|1DB3C81B800F7BB6|1AC4282526874395|1|1|2030-01-01|1000.00|396.00|1|1|9.00|2030-01-01";
+//        String[] split = s1.split("\\|");
+//        System.out.println(split[0]);
+//
+//        boolean blank = StringUtils.isBlank(null);
+//        System.out.println(blank);
+//        Object s=StringUtils.isBlank(null)? 0:"1232";
+//        System.out.println(s);
+        String s="12.00";
+        System.out.println(new BigDecimal(s).intValue());
 
-        boolean blank = StringUtils.isBlank(null);
-        System.out.println(blank);
-        Object s=StringUtils.isBlank(null)? 0:"1232";
-        System.out.println(s);
     }
 
     public static String getOrderIdByUUId() {
