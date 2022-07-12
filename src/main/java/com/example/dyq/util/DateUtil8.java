@@ -1,6 +1,7 @@
 package com.example.dyq.util;
 
 import com.google.common.collect.Lists;
+import org.apache.commons.lang3.RandomUtils;
 import org.springframework.util.Assert;
 
 import java.text.SimpleDateFormat;
@@ -9,8 +10,8 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
 import java.time.temporal.ChronoUnit;
 import java.time.temporal.TemporalAdjusters;
-import java.util.Date;
-import java.util.List;
+import java.time.temporal.TemporalUnit;
+import java.util.*;
 
 /**
  * java1.8 的新特性，解决SimpleDateFormat的线程问题<br>
@@ -420,6 +421,29 @@ public class DateUtil8 {
     }
 
     /**
+     * 计算两个日期字符串之间相差多少个周期（天，月，年）
+     *
+     * @param date1 yyyy-MM-dd
+     * @param date2 yyyy-MM-dd
+     * @param node  三者之一:(day，month,year)
+     * @return 相差多少周期
+     * @author zero 2019/03/31
+     */
+    public static int peridDateCount(Date date1, Date date2, String node) {
+        LocalDate localDate1 = date1.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        LocalDate localDate2 = date2.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        if (DAY.equals(node)) {
+            return Period.between(localDate1,localDate2).getDays();
+        } else if (MONTH.equals(node)) {
+            return Period.between(localDate1,localDate2).getMonths();
+        } else if (YEAR.equals(node)) {
+            return Period.between(localDate1,localDate2).getYears();
+        } else {
+            return 0;
+        }
+    }
+
+    /**
      * 切割日期。按照周期切割成小段日期段。例如： <br>
      *
      * @param startDate 开始日期（yyyy-MM-dd）
@@ -672,10 +696,60 @@ public class DateUtil8 {
     }
 
     /**
-     * 两个日期之间的差值
+     * 取范围日期的随机日期时间,不含边界
+     * @param startDay
+     * @param endDay
      * @return
      */
-    public static void TwoDateBetween(){}
+    public static LocalDateTime randomLocalDateTime(int startDay,int endDay){
+
+        int plusMinus = 1;
+        if(startDay < 0 && endDay > 0){
+            plusMinus = Math.random()>0.5?1:-1;
+            if(plusMinus>0){
+                startDay = 0;
+            }else{
+                endDay = Math.abs(startDay);
+                startDay = 0;
+            }
+        }else if(startDay < 0 && endDay < 0){
+            plusMinus = -1;
+
+            //两个数交换
+            startDay = startDay + endDay;
+            endDay  = startDay - endDay;
+            startDay = startDay -endDay;
+
+            //取绝对值
+            startDay = Math.abs(startDay);
+            endDay = Math.abs(endDay);
+
+        }
+
+        LocalDate day = LocalDate.now().plusDays(plusMinus * RandomUtils.nextInt(startDay,endDay));
+        int hour = RandomUtils.nextInt(1,24);
+        int minute = RandomUtils.nextInt(0,60);
+        int second = RandomUtils.nextInt(0,60);
+        LocalTime time = LocalTime.of(hour, minute, second);
+        return LocalDateTime.of(day, time);
+    }
+
+    /**
+     * 取范围日期的随机日期时间,不含边界
+     * @param startDay
+     * @param endDay
+     * @return
+     */
+    public static Date randomDateTime(int startDay,int endDay){
+        LocalDateTime ldt = randomLocalDateTime(startDay,endDay);
+        ZonedDateTime zdt = ldt.atZone(ZoneId.systemDefault());
+        return Date.from(zdt.toInstant());
+    }
+
+
+
+
+
     public static void main(String[] args) throws Exception {
 //        System.out.println("===================");
 //        //获取距离当前日期90天前的日期的时间戳
@@ -739,15 +813,23 @@ public class DateUtil8 {
         //1598889600000
 //        String afterOrPreNowTimePlus = getAfterOrPreNowTimePlus(yyyyMMddHHmmss_EN, DAY, -7L);
 //        System.out.println(afterOrPreNowTimePlus);
-        LocalDate localDate = LocalDate.now();
-        String currentTableSuffix = localDate.format(DateTimeFormatter.ofPattern("yyyyMMdd"));
-        System.out.println(currentTableSuffix);
-        for(int i=1;i<=15;i++) {
-            LocalDate beforeLocalDate = localDate.minusDays(i);
-            String tableSuffix = beforeLocalDate.format(DateTimeFormatter.ofPattern("yyyyMMdd"));
-            System.out.println(tableSuffix);
-        }
+//        LocalDate localDate = LocalDate.now();
+//        String currentTableSuffix = localDate.format(DateTimeFormatter.ofPattern("yyyyMMdd"));
+//        System.out.println(currentTableSuffix);
+//        for(int i=1;i<=15;i++) {
+//            LocalDate beforeLocalDate = localDate.minusDays(i);
+//            String tableSuffix = beforeLocalDate.format(DateTimeFormatter.ofPattern("yyyyMMdd"));
+//            System.out.println(tableSuffix);
+//        }
+//        Date date = randomDate("2021-09-18", "2021-10-18");
+//        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+//        System.out.println(simpleDateFormat.format(date));
+//        Date date = randomDateTime(30, 60);
+//        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+//        System.out.println(simpleDateFormat.format(date));
+//        System.out.println(peridDateCount(new Date(),date,DAY));
 
+        System.out.println(LocalDateTime.now().plusDays(7));;
     }
 
 }

@@ -162,6 +162,93 @@ public class DesUtil {
         return result;
     }
 
+
+
+    /**
+     * 密钥算法
+     */
+    private static final String ALGORITHM = "DES";
+    /**
+     * 加密/解密算法-工作模式-填充模式
+     */
+    private static final String CIPHER_ALGORITHM = "DES/ECB/PKCS5Padding";
+    /**
+     * 默认编码
+     */
+    private static final String CHARSET = "utf-8";
+
+    private static ThreadLocal<Cipher> cipherLocal = new ThreadLocal<Cipher>();
+
+    /**
+     * 加密字符串
+     *
+     * @param 加密密码，长度不能够小于8位
+     * @param data           待加密字符串
+     * @return 加密后内容
+     * @throw
+     */
+    public static String encrypt(String password, String data) throws Exception {
+        if (password == null || password.length() < 8) {
+            throw new Exception("加密失败，密码不能小于8位");
+        }
+        if (data == null)
+            return null;
+        try {
+            Cipher cipher = cipherLocal.get();
+            if (cipher == null) {
+                Key secretKey = generateKey(password);
+                cipher = Cipher.getInstance(CIPHER_ALGORITHM);
+                cipher.init(Cipher.ENCRYPT_MODE, secretKey);
+                cipherLocal.set(cipher);
+            }
+            byte[] bytes = cipher.doFinal(data.getBytes(CHARSET));
+            return byteArr2HexStr(bytes);
+
+        } catch (Exception e) {
+            throw e;
+        }
+    }
+
+    /**
+     * 生成key
+     *
+     * @param 加密密码
+     * @return Key对象
+     * @throws Exception
+     */
+    private static Key generateKey(String password) throws Exception {
+        DESKeySpec dks = new DESKeySpec(password.getBytes(CHARSET));
+        SecretKeyFactory keyFactory = SecretKeyFactory.getInstance(ALGORITHM);
+        return keyFactory.generateSecret(dks);
+    }
+
+    /**
+     * 将byte数组转换为表示16进制值的字符串， 如：byte[]{8,18}转换为：0813， 和public static byte[]
+     * hexStr2ByteArr(String strIn) 互为可逆的转换过程
+     *
+     * @param arrB 需要转换的byte数组
+     * @return 转换后的字符串
+     * @throws Exception 本方法不处理任何异常，所有异常全部抛出
+     */
+    private static String byteArr2HexStr(byte[] arrB) throws Exception {
+        int iLen = arrB.length;
+        StringBuffer sb = new StringBuffer(iLen * 2);
+        for (int i = 0; i < iLen; i++) {
+            int intTmp = arrB[i];
+            while (intTmp < 0) {
+                intTmp = intTmp + 256;
+            }
+            if (intTmp < 16) {
+                sb.append("0");
+            }
+            sb.append(Integer.toString(intTmp, 16));
+        }
+        return sb.toString();
+    }
+
+
+
+
     public static void main(String[] args) throws Exception {
 //        Map<String,Object> resultMap=new HashMap<>();
 //      String companyAuthResult="{\"charge\":0,\"data\":{\"authCode\":\"00\",\"authMsg\":\"一致\",\"status\":\"存续\"},\"orderId\":\"WS2020072811152005601562\",\"resultCode\":\"200\",\"shiyiOrderId\":\"SY2020072811150646265909\",\"message\":\"请求成功\"}";
@@ -187,11 +274,7 @@ public class DesUtil {
 //            System.out.println("==================");
 //        }
 
-        String s="70";
-        BigDecimal bigDecimal=new BigDecimal(s);
-        BigDecimal bigDecimal1=new BigDecimal("70");
-        System.out.println(bigDecimal);
-        System.out.println(bigDecimal.compareTo(bigDecimal1));
+        System.out.println(encrypt("ef003247", "12312323213123132"));
     }
 
 }

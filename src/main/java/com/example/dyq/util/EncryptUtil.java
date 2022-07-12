@@ -1,5 +1,8 @@
 package com.example.dyq.util;
 
+import crypto.sm.SM4;
+import crypto.sm.SMUtil;
+import org.apache.commons.codec.binary.Base64;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -131,10 +134,48 @@ public class EncryptUtil {
 		return md5.digest();
 	}
 
-	
-//	public static void main(String[] args) {
-//		//System.out.println(EncryptUtil.sha2Encrypt("w123123"));
-//		//System.out.println(EncryptUtil.md5Encrypt("w123123"));  //-->9a51d81c744ca5c8b5632a63fbd0ede7
-//		System.out.println(EncryptUtil.sha1Encrypt("123456"));
-//	}
+
+	private static String CHARSET = "UTF-8";
+	private static SM4 sm4 = new SM4();
+	private static String keyStr="NANNINGZULIN2021";
+	/**
+	 *
+	 * SM4加密
+	 * @param dataStr
+	 * @return
+	 */
+	public static String SM4Encode(String dataStr) {
+		try {
+			return Base64.encodeBase64String(sm4.encryptEcb(SMUtil.PKCS7Padding(dataStr.getBytes(CHARSET),dataStr.getBytes(CHARSET).length), keyStr.getBytes(CHARSET)));
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			return dataStr;
+		}
+	}
+
+	/**
+	 * SM4解密
+	 * @param dataStr
+	 * @return
+	 */
+	public static String SM4Decode(String dataStr){
+		try {
+			byte[] plantext= Base64.decodeBase64(dataStr.getBytes(CHARSET));
+			byte[] decodeData=sm4.decryptEcb(plantext, keyStr.getBytes(CHARSET));
+			byte[] aa=SMUtil.PKCS7Cutting(decodeData,decodeData.length);
+			return new String(aa,CHARSET);
+		}catch(Exception e){
+			e.printStackTrace();
+			return dataStr;
+		}
+	}
+
+
+	public static void main(String[] args) {
+		String data="This is 一段明文内容！";
+		System.out.println(SM4Encode(data));
+		//yyMZpJOdy0qiI/sdJLoNfvFtiSy8tI5USUxjdfK5Bv8=
+		//FRUXixwIjvJvDtb61aTwdR4pCTCaQLPRQ6ZPYH0eMUs=
+	}
 }

@@ -1,8 +1,9 @@
 package com.example.dyq.javaguide.java8;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import com.example.dyq.dto.Person;
+import org.springframework.util.StringUtils;
+
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -18,8 +19,16 @@ public class StreamDemo {
 //        testOne();
 
 //        testTwo();
-
-        testThree();
+//
+//        testThree();
+//         testFour();
+        Person person = null;
+        Optional.ofNullable(person).ifPresent(f->{
+            f.setAdmin(true);
+            f.setEmail("11111");
+            System.out.println("数据入库");
+        });
+        System.out.println("其他业务处理");
     }
 
     public static void testOne() {
@@ -41,6 +50,7 @@ public class StreamDemo {
                 filter(x -> x.compareTo("Z") > 0).
                 reduce("", String::concat);
         System.out.println(concat);
+
     }
 
 
@@ -82,7 +92,11 @@ public class StreamDemo {
         // 获取 List 中每个元素对应的平方数并去重
         List<Integer> squaresList = numbers.stream().map( i -> i*i).distinct().collect(Collectors.toList());
         System.out.println("获取 List 中每个元素对应的平方数并去重: "+squaresList.toString());//[9, 4, 49, 25]
-
+        List<Integer> collect1 = Stream.of(1, 2, 3, 4, 5).skip(2).collect(Collectors.toList());
+        collect1.stream().forEach(s->System.out.print(" "+s));
+        System.out.println();
+        List<Integer> collect2 = wordsList.stream().map(String::length).collect(Collectors.toList());
+        collect2.stream().forEach(s->System.out.print(" "+s));
     }
 
     //将以下字符串按逗号分割成List,去除每个成员项首位空格，过滤空白项，合并重复项
@@ -92,6 +106,29 @@ public class StreamDemo {
         String[] split = s.split("\\,");
         List<String> strings = Arrays.asList(split);
         strings.stream().map(x->x.trim()).filter(x->!x.isEmpty()).distinct().forEach(System.out::println);
+
+        List<String> wordList = Arrays.asList("Hello", "World");
+        List<String> strList = wordList.stream()
+                .map(w -> w.split(" "))
+                .flatMap(Arrays::stream)
+                .distinct()
+                .collect(Collectors.toList());
+        strList.stream().forEach(System.out::print);
+
+    }
+
+    public static  void testFour(){
+        String abandonResultCompany="1,2,3,4,5";
+        Long companyId=3L;
+        boolean b = Optional.ofNullable(abandonResultCompany)
+                .filter(f -> !StringUtils.isEmpty(f))
+                .map(f -> f.split(","))
+                .map(Arrays::asList)
+                .orElse(Collections.emptyList())
+                .stream().map(Long::valueOf)
+                .anyMatch(f -> f.equals(companyId));
+        System.out.println(b);
+
     }
 
 }
